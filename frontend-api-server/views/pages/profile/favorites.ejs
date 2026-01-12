@@ -1,0 +1,92 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<main class="container py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <%- include('../../partials/profile-sidebar', { activePage: 'favorites' }) %>
+        </div>
+
+        <!-- Content -->
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0"><i class="bi bi-heart me-2"></i>Favorilerim</h4>
+            </div>
+
+            <% if (favorites && favorites.length > 0) { %>
+            <div class="row g-4">
+                <% favorites.forEach(function(product) { %>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card h-100 product-card shadow-sm border-0 position-relative">
+                        <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle remove-favorite" 
+                                data-product-id="<%= product.id %>"
+                                title="Favorilerden Çıkar">
+                            <i class="bi bi-x"></i>
+                        </button>
+                        <a href="/products/<%= product.id %>">
+                            <img src="<%= product.imageUrl || '/images/no-image.jpg' %>" 
+                                 class="card-img-top" alt="<%= product.name %>"
+                                 style="height: 200px; object-fit: cover;">
+                        </a>
+                        <div class="card-body p-2">
+                            <h6 class="card-title text-truncate mb-1">
+                                <a href="/products/<%= product.id %>" class="text-decoration-none text-dark">
+                                    <%= product.name %>
+                                </a>
+                            </h6>
+                            <p class="text-primary fw-bold mb-0"><%= product.price.toFixed(2) %> TL</p>
+                            <div class="mt-2">
+                                <a href="/products/<%= product.id %>" class="btn btn-sm btn-outline-primary w-100">İncele</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+            <% } else { %>
+            <div class="text-center py-5 shadow-sm rounded bg-white">
+                <i class="bi bi-heart text-muted display-1"></i>
+                <h4 class="mt-3">Favorileriniz Boş</h4>
+                <p class="text-muted">Henüz favorilere ürün eklemediniz.</p>
+                <a href="/products" class="btn btn-outline-primary">Alışverişe Başla</a>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const removeBtns = document.querySelectorAll('.remove-favorite');
+    removeBtns.forEach(btn => {
+        btn.addEventListener('click', async function() {
+            const productId = this.dataset.productId;
+            const card = this.closest('.col-6');
+            
+            try {
+                const response = await fetch(`/profile/favorites/toggle/${productId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const result = await response.json();
+                if (response.ok) {
+                    card.remove();
+                    // Eğer hepsi silindiyse sayfayı yenile (boş durumunu göstermek için)
+                    if (document.querySelectorAll('.remove-favorite').length === 0) {
+                        location.reload();
+                    }
+                } else {
+                    alert('Hata: ' + (result.error || 'İşlem başarısız.'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Bir hata oluştu.');
+            }
+        });
+    });
+});
+</script>
+
+<%- include('../../partials/footer') %>

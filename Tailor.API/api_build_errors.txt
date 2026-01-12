@@ -1,0 +1,12 @@
+  Geri yüklenecek projeler belirleniyor...
+  Geri yükleme için tüm projeler güncel.
+  Tailor.Entity -> C:\Users\AysenurSariot\SWETailorProject\Tailor.Entity\bin\Debug\net8.0\Tailor.Entity.dll
+  Tailor.DTO -> C:\Users\AysenurSariot\SWETailorProject\Tailor.DTO\bin\Debug\net8.0\Tailor.DTO.dll
+  Tailor.DataAccess -> C:\Users\AysenurSariot\SWETailorProject\Tailor.DataAccess\bin\Debug\net8.0\Tailor.DataAccess.dll
+  Tailor.Business -> C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\bin\Debug\net8.0\Tailor.Business.dll
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AddressControllers.cs(1,17): error CS0234: 'AspNet' tür veya ad alanı adı 'Microsoft' ad alanında yok (bir derleme başvurunuz mu eksik?) [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AuthController.cs(7,23): error CS0234: 'LoginDtos' tür veya ad alanı adı 'Tailor.DTO.DTOs' ad alanında yok (bir derleme başvurunuz mu eksik?) [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AuthController.cs(8,23): error CS0234: 'UserDtos' tür veya ad alanı adı 'Tailor.DTO.DTOs' ad alanında yok (bir derleme başvurunuz mu eksik?) [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AuthController.cs(38,51): error CS0246: 'RegisterDto' türü veya ad alanı adı bulunamadı (bir using yönergeniz veya derleme başvurunuz mu eksik?) [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AuthController.cs(110,48): error CS0246: 'LoginDto' türü veya ad alanı adı bulunamadı (bir using yönergeniz veya derleme başvurunuz mu eksik?) [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AuthController.cs(162,53): error CS0246: 'AssignRoleDto' türü veya ad alanı adı bulunamadı (bir using yönergeniz veya derleme başvurunuz mu eksik?) [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]

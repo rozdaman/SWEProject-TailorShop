@@ -1,0 +1,85 @@
+<%- include('../../../partials/header') %>
+<%- include('../../../partials/navbar') %>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Admin Sidebar -->
+        <div class="col-lg-2 admin-sidebar d-none d-lg-block">
+            <h5 class="text-white px-3 mb-4">
+                <i class="bi bi-gear me-2"></i>Admin Panel
+            </h5>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="/admin">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="/admin/products">
+                    <i class="bi bi-box me-2"></i>Ürünler
+                </a>
+                <a class="nav-link active" href="/admin/categories">
+                    <i class="bi bi-tags me-2"></i>Kategoriler
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-10 py-4">
+            <div class="container-fluid">
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/categories">Kategoriler</a></li>
+                        <li class="breadcrumb-item active"><%= category ? 'Düzenle' : 'Yeni Kategori' %></li>
+                    </ol>
+                </nav>
+
+                <div class="admin-card" style="max-width: 600px;">
+                    <h4 class="mb-4">
+                        <i class="bi bi-tags me-2"></i>
+                        <%= category ? 'Kategori Düzenle' : 'Yeni Kategori Ekle' %>
+                    </h4>
+
+                    <form action="/admin/categories" method="POST">
+                        <% if (category) { %>
+                        <input type="hidden" name="id" value="<%= category.id %>">
+                        <% } %>
+
+                        <div class="mb-3">
+                            <label class="form-label">Kategori Adı *</label>
+                            <input type="text" class="form-control" name="name"
+                                   value="<%= category?.name || '' %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Görsel URL *</label>
+                            <input type="url" class="form-control" name="imageUrl"
+                                   value="<%= category?.imageUrl || '' %>"
+                                   placeholder="https://example.com/image.jpg" required>
+                            <small class="text-muted">Kategori için bir görsel URL'si girin</small>
+                        </div>
+
+                        <% if (category?.imageUrl) { %>
+                        <div class="mb-3">
+                            <label class="form-label">Mevcut Görsel</label>
+                            <div>
+                                <img src="<%= category.imageUrl %>" alt="Kategori Görseli"
+                                     class="img-thumbnail" style="max-height: 150px;">
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i>Kaydet
+                            </button>
+                            <a href="/admin/categories" class="btn btn-outline-secondary">
+                                <i class="bi bi-x me-2"></i>İptal
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../../partials/footer') %>

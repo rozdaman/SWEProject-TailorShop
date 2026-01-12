@@ -1,0 +1,192 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<div class="container py-5">
+    
+    <!-- Üst Bilgi ve Breadcrumb -->
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1 bg-transparent p-0">
+                    <li class="breadcrumb-item"><a href="/" class="text-uppercase text-decoration-none text-muted" style="font-size: 0.75rem; font-weight: 700;">Ana Sayfa</a></li>
+                    <!-- Eğer kategori seçiliyse breadcrumb'a ekle -->
+                    <% if (filters.category) { 
+                        const activeCat = categories.find(c => c.id == filters.category);
+                    %>
+                        <li class="breadcrumb-item"><a href="/products" class="text-uppercase text-decoration-none text-muted" style="font-size: 0.75rem; font-weight: 700;">Koleksiyon</a></li>
+                        <li class="breadcrumb-item active text-uppercase" style="font-size: 0.75rem; font-weight: 700; color: var(--sartoria-accent);"><%= activeCat ? activeCat.name : 'Kategori' %></li>
+                    <% } else { %>
+                        <li class="breadcrumb-item active text-uppercase" style="font-size: 0.75rem; font-weight: 700; color: var(--sartoria-accent);">Tüm Koleksiyon</li>
+                    <% } %>
+                </ol>
+            </nav>
+            <h2 class="display-5 fw-bold" style="font-family: var(--font-serif); letter-spacing: -1px;"><%= title || 'Tüm Ürünler' %></h2>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <span class="text-muted small fw-bold text-uppercase"><%= products ? products.length : 0 %> Parça Listelendi</span>
+        </div>
+    </div>
+
+    <div class="row g-5">
+        
+        <!-- SIDEBAR FİLTRE (Sol) -->
+        <div class="col-lg-3">
+            <div class="shop-sidebar p-4 sticky-top" style="top: 100px; background: #fff; border: 1px solid var(--sartoria-border); z-index: 1;">
+                <form action="/products" method="GET" id="filterForm">
+                    <% if (filters.category) { %>
+                        <input type="hidden" name="category" value="<%= filters.category %>">
+                    <% } %>
+                    <% if (filters.type) { %>
+                        <input type="hidden" name="type" value="<%= filters.type %>">
+                    <% } %>
+                    
+                    <!-- Arama -->
+                    <div class="mb-4">
+                        <h6 class="text-uppercase fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px; color: var(--sartoria-dark);">Ara</h6>
+                        <div class="input-group">
+                            <input type="text" name="keyword" class="form-control form-control-sm border-end-0" placeholder="Ürün ara..." value="<%= filters.keyword || '' %>">
+                            <button class="btn btn-outline-secondary border-start-0" type="submit"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Kategoriler -->
+                    <div class="mb-4">
+                        <h6 class="text-uppercase fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px; color: var(--sartoria-dark);">Kategoriler</h6>
+                        <div class="d-flex flex-column gap-2">
+                            <a href="/products" class="text-decoration-none small <%= !filters.category ? 'fw-bold text-accent' : 'text-muted' %>">
+                                <i class="bi bi-grid me-2"></i>Tümü
+                            </a>
+                            <% if (categories && categories.length > 0) { %>
+                                <% categories.forEach(cat => { %>
+                                    <a href="/products?category=<%= cat.id %>" class="text-decoration-none small d-flex align-items-center <%= filters.category == cat.id ? 'fw-bold text-accent' : 'text-muted' %>">
+                                        <i class="bi bi-chevron-right me-2" style="font-size: 0.7em;"></i><%= cat.name %>
+                                    </a>
+                                <% }); %>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Fiyat Aralığı -->
+                    <div class="mb-4">
+                        <h6 class="text-uppercase fw-bold mb-3" style="font-size: 0.8rem; letter-spacing: 1px; color: var(--sartoria-dark);">Fiyat Aralığı</h6>
+                        <div class="d-flex gap-2">
+                            <input type="number" name="minPrice" class="form-control form-control-sm text-center" placeholder="Min" value="<%= filters.minPrice || '' %>">
+                            <span class="text-muted d-flex align-items-center">-</span>
+                            <input type="number" name="maxPrice" class="form-control form-control-sm text-center" placeholder="Max" value="<%= filters.maxPrice || '' %>">
+                        </div>
+                        <button type="submit" class="btn btn-sartoria w-100 mt-3 py-2" style="font-size: 0.75rem;">FİLTRELE</button>
+                    </div>
+
+                    <!-- Temizle Butonu -->
+                    <% if (filters.category || filters.type || filters.keyword || filters.minPrice) { %>
+                        <a href="/products" class="btn btn-outline-danger w-100 py-2 border-0" style="font-size: 0.75rem;">
+                            <i class="bi bi-x-circle me-1"></i> FİLTRELERİ TEMİZLE
+                        </a>
+                    <% } %>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- ÜRÜN LİSTESİ (Sağ) -->
+        <div class="col-lg-9">
+            <div class="row g-4">
+                <% if (products && products.length > 0) { %>
+                    <% products.forEach(function(product) { %>
+                    <div class="col-6 col-md-4">
+                        <div class="product-card h-100 position-relative group" style="background: #fff; border: 1px solid #f0f0f0; transition: all 0.3s ease;">
+                            
+                            <!-- Görsel Alanı -->
+                            <div class="card-img-top position-relative overflow-hidden" style="height: 320px; background: #f8f9fa;">
+                                <a href="/products/<%= product.id %>">
+                                    <img src="<%= product.imageUrl || 'https://via.placeholder.com/600x800?text=SARTORIA' %>" 
+                                         alt="<%= product.name %>" 
+                                         class="w-100 h-100" 
+                                         style="object-fit: cover; transition: transform 0.5s ease;">
+                                </a>
+                                
+
+                            </div>
+
+                            <div class="card-body text-center p-4">
+                                <h5 class="product-title text-truncate mb-2">
+                                    <a href="/products/<%= product.id %>" class="text-decoration-none text-dark fw-bold" style="font-family: var(--font-serif); letter-spacing: 0.5px;">
+                                        <%= product.name %>
+                                    </a>
+                                </h5>
+                                <p class="product-price mb-3 text-accent fw-bold" style="font-family: var(--font-sans);">
+                                    <%= product.price.toFixed(2) %> ₺ 
+                                    <% if(product.productType === 0) { %><small class="text-muted fw-normal" style="font-size: 0.75rem;">/ metre</small><% } %>
+                                </p>
+
+                                <!-- BUTON MANTIĞI -->
+                                <% if(product.productType === 1) { %>
+                                    <!-- Tip 1 (Kıyafet): Varyant (Beden) seçimi zorunlu -> Detaya Git -->
+                                    <a href="/products/<%= product.id %>" class="btn btn-outline-dark w-100 rounded-0" style="font-size: 0.8rem; font-weight: 600; letter-spacing: 1px;">
+                                        SEÇENEKLERİ GÖR
+                                    </a>
+                                <% } else { %>
+                                    <!-- Tip 0, 2, 3: Direkt Sepete Ekle -->
+                                    <!-- DİKKAT: 'btn-add-to-cart' class'ı main.js için zorunludur -->
+                                    <button type="button" class="btn btn-sartoria w-100 btn-add-to-cart rounded-0" 
+                                            data-product-id="<%= product.id %>" 
+                                            data-quantity="1">
+                                        <i class="bi bi-bag-plus me-2"></i>SEPETE EKLE
+                                    </button>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <!-- Boş Durum -->
+                    <div class="col-12 text-center py-5">
+                        <div class="mb-4">
+                            <i class="bi bi-search fs-1 text-muted opacity-25"></i>
+                        </div>
+                        <h4 style="font-family: var(--font-serif);">Aradığınız kriterlere uygun parça bulunamadı.</h4>
+                        <p class="text-muted">Farklı bir kategori seçebilir veya filtreleri temizleyerek tekrar deneyebilirsiniz.</p>
+                        <a href="/products" class="btn btn-outline-dark mt-3 rounded-0 px-4">TÜM KOLEKSİYONU GÖR</a>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Sayfalama (Pagination) -->
+            <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+            <nav class="mt-5 d-flex justify-content-center">
+                <ul class="pagination">
+                    <!-- Önceki Sayfa -->
+                    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                        <a class="page-link border-0 text-dark" 
+                           href="?page=<%= currentPage - 1 %>&category=<%= filters.category || '' %>&minPrice=<%= filters.minPrice || '' %>&maxPrice=<%= filters.maxPrice || '' %>&keyword=<%= filters.keyword || '' %>">
+                           ← ÖNCEKİ
+                        </a>
+                    </li>
+                    
+                    <!-- Sayfa Numaraları -->
+                    <% for(let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link border-0 <%= currentPage === i ? 'fw-bold text-decoration-underline' : 'text-dark' %>" 
+                           style="background: transparent;" 
+                           href="?page=<%= i %>&category=<%= filters.category || '' %>&minPrice=<%= filters.minPrice || '' %>&maxPrice=<%= filters.maxPrice || '' %>&keyword=<%= filters.keyword || '' %>">
+                           <%= i %>
+                        </a>
+                    </li>
+                    <% } %>
+                    
+                    <!-- Sonraki Sayfa -->
+                    <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                        <a class="page-link border-0 text-dark" 
+                           href="?page=<%= currentPage + 1 %>&category=<%= filters.category || '' %>&minPrice=<%= filters.minPrice || '' %>&maxPrice=<%= filters.maxPrice || '' %>&keyword=<%= filters.keyword || '' %>">
+                           SONRAKİ →
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <% } %>
+
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>

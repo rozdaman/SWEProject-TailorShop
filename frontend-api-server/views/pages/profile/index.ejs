@@ -1,0 +1,123 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<main class="container py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <%- include('../../partials/profile-sidebar', { activePage: 'profile' }) %>
+        </div>
+
+        <!-- Content -->
+        <div class="col-lg-9">
+            <div class="profile-content">
+                <h4 class="mb-4"><i class="bi bi-person me-2"></i>Profil Bilgilerim</h4>
+
+                <form id="profile-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Kullanıcı Adı</label>
+                            <input type="text" class="form-control" value="<%= user.username || '' %>" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">E-posta Adresi</label>
+                            <input type="email" class="form-control" value="<%= user.email %>" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ad</label>
+                            <input type="text" class="form-control" placeholder="Adınız" value="<%= user.name || '' %>">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Soyad</label>
+                            <input type="text" class="form-control" placeholder="Soyadınız" value="<%= user.surname || '' %>">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary" disabled title="Profil güncelleme şu an aktif değil">
+                            <i class="bi bi-check-circle me-2"></i>Bilgileri Güncelle
+                        </button>
+                    </div>
+                </form>
+
+                <hr class="my-5">
+
+                <h5 class="mb-3">Şifre Değiştir</h5>
+                <div id="password-alert"></div>
+                
+                <form id="change-password-form">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Mevcut Şifre</label>
+                            <input type="password" name="currentPassword" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Yeni Şifre</label>
+                            <input type="password" name="newPassword" class="form-control" required minlength="6">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Yeni Şifre (Tekrar)</label>
+                            <input type="password" name="confirmNewPassword" class="form-control" required minlength="6">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-dark">
+                            <i class="bi bi-shield-lock me-2"></i>Şifreyi Güncelle
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+document.getElementById('change-password-form')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    const alertDiv = document.getElementById('password-alert');
+    const btn = this.querySelector('button[type="submit"]');
+    
+    if (data.newPassword !== data.confirmNewPassword) {
+        alertDiv.innerHTML = `<div class="alert alert-danger">Yeni şifreler uyuşmuyor!</div>`;
+        return;
+    }
+
+    try {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Güncelleniyor...';
+        
+        const response = await fetch('/profile/change-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            alertDiv.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+            this.reset();
+        } else {
+            let errorMsg = result.error;
+            if (typeof errorMsg === 'object' && Array.isArray(errorMsg)) {
+                errorMsg = errorMsg.map(e => e.description).join('<br>');
+            } else if (result.error === 'Current password does not match.') {
+                errorMsg = 'Mevcut şifreniz hatalı.';
+            }
+            alertDiv.innerHTML = `<div class="alert alert-danger">${errorMsg || 'Bir hata oluştu.'}</div>`;
+        }
+    } catch (err) {
+        console.error(err);
+        alertDiv.innerHTML = `<div class="alert alert-danger">Sunucuya bağlanılamadı.</div>`;
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-shield-lock me-2"></i>Şifreyi Güncelle';
+    }
+});
+</script>
+
+<%- include('../../partials/footer') %>

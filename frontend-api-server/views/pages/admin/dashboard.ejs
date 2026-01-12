@@ -1,0 +1,146 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Admin Sidebar -->
+        <div class="col-lg-2 admin-sidebar d-none d-lg-block">
+            <h5 class="text-white px-3 mb-4">
+                <i class="bi bi-gear me-2"></i>Admin Panel
+            </h5>
+            <nav class="nav flex-column">
+                <a class="nav-link active" href="/admin">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="/admin/products">
+                    <i class="bi bi-box me-2"></i>Ürünler
+                </a>
+                <a class="nav-link" href="/admin/categories">
+                    <i class="bi bi-tags me-2"></i>Kategoriler
+                </a>
+                <a class="nav-link" href="/admin/stock">
+                    <i class="bi bi-boxes me-2"></i>Stok Yönetimi
+                </a>
+                <a class="nav-link" href="/admin/users">
+                    <i class="bi bi-people me-2"></i>Kullanıcılar
+                </a>
+                <a class="nav-link" href="/admin/logistics">
+                    <i class="bi bi-truck me-2"></i>Lojistik
+                </a>
+                <hr class="my-3 bg-secondary">
+                <a class="nav-link" href="/admin/seed">
+                    <i class="bi bi-database me-2"></i>Örnek Veri Ekle
+                </a>
+                <a class="nav-link" href="/">
+                    <i class="bi bi-house me-2"></i>Siteye Dön
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-10 py-4">
+            <div class="container-fluid">
+                <h3 class="mb-4">Dashboard</h3>
+
+                <!-- Stats Cards -->
+                <div class="row g-4 mb-4">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="stat-card bg-primary">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="mb-1 opacity-75">Toplam Ürün</p>
+                                    <h3 class="mb-0"><%= stats.products %></h3>
+                                </div>
+                                <i class="bi bi-box"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="stat-card bg-success">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="mb-1 opacity-75">Kategoriler</p>
+                                    <h3 class="mb-0"><%= stats.categories %></h3>
+                                </div>
+                                <i class="bi bi-tags"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="stat-card bg-warning">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="mb-1 opacity-75">Siparişler</p>
+                                    <h3 class="mb-0"><%= stats.orders %></h3>
+                                </div>
+                                <i class="bi bi-bag"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="stat-card bg-info">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="mb-1 opacity-75">Kullanıcılar</p>
+                                    <h3 class="mb-0"><%= stats.users %></h3>
+                                </div>
+                                <i class="bi bi-people"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="admin-card h-100">
+                            <h5 class="mb-4"><i class="bi bi-lightning me-2"></i>Hızlı İşlemler</h5>
+                            <div class="d-grid gap-2">
+                                <a href="/admin/products/new" class="btn btn-outline-primary">
+                                    <i class="bi bi-plus me-2"></i>Yeni Ürün Ekle
+                                </a>
+                                <a href="/admin/categories/new" class="btn btn-outline-success">
+                                    <i class="bi bi-plus me-2"></i>Yeni Kategori Ekle
+                                </a>
+                                <a href="/admin/stock" class="btn btn-outline-warning">
+                                    <i class="bi bi-boxes me-2"></i>Stok Güncelle
+                                </a>
+                                <a href="/admin/logistics" class="btn btn-outline-info">
+                                    <i class="bi bi-truck me-2"></i>Kargo Oluştur
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="admin-card h-100">
+                            <h5 class="mb-4"><i class="bi bi-info-circle me-2"></i>Sistem Bilgisi</h5>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td class="text-muted">API URL:</td>
+                                    <td><%= API_URL %></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Platform:</td>
+                                    <td>Node.js + Express</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Frontend:</td>
+                                    <td>Bootstrap 5</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Template Engine:</td>
+                                    <td>EJS</td>
+                                </tr>
+                            </table>
+                            <a href="/admin/seed" class="btn btn-sm btn-outline-secondary mt-2">
+                                <i class="bi bi-database me-2"></i>Örnek Veri Yükle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>

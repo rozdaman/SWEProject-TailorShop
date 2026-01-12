@@ -1,0 +1,298 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<main class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-transparent p-0">
+            <li class="breadcrumb-item"><a href="/" class="text-uppercase text-decoration-none text-muted" style="font-size: 0.75rem; font-weight: 700;">Ana Sayfa</a></li>
+            <li class="breadcrumb-item"><a href="/cart" class="text-uppercase text-decoration-none text-muted" style="font-size: 0.75rem; font-weight: 700;">Sepetim</a></li>
+            <li class="breadcrumb-item active text-uppercase" style="font-size: 0.75rem; font-weight: 700; color: var(--sartoria-accent);">Ödeme</li>
+        </ol>
+    </nav>
+
+    <!-- Checkout Steps -->
+    <div class="checkout-steps mb-5">
+        <div class="checkout-step completed">
+            <div class="step-number"><i class="bi bi-check"></i></div>
+            <span>Sepet</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="checkout-step active">
+            <div class="step-number">2</div>
+            <span>Ödeme</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="checkout-step">
+            <div class="step-number">3</div>
+            <span>Onay</span>
+        </div>
+    </div>
+
+    <form action="/cart/checkout" method="POST">
+        <div class="row">
+            <!-- Sol Kolon -->
+            <div class="col-lg-8">
+                <!-- Teslimat Adresi -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Teslimat Adresi</h5>
+                    </div>
+                    <div class="card-body">
+                        <% if (addresses && addresses.length > 0) { %>
+                        <div class="row g-3">
+                            <% addresses.forEach(function(addr, index) { %>
+                            <div class="col-md-6">
+                                <div class="address-card <%= index === 0 || addr.isDefault ? 'selected' : '' %>"
+                                     onclick="selectAddress(this, <%= addr.id %>)">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="shippingAddressId"
+                                               value="<%= addr.id %>" id="addr<%= addr.id %>"
+                                               <%= index === 0 || addr.isDefault ? 'checked' : '' %>>
+                                        <label class="form-check-label fw-bold" for="addr<%= addr.id %>">
+                                            <%= addr.title %>
+                                            <% if (addr.isDefault) { %>
+                                            <span class="badge bg-primary ms-1">Varsayılan</span>
+                                            <% } %>
+                                        </label>
+                                    </div>
+                                    <p class="mb-0 mt-2 small text-muted">
+                                        <%= addr.fullAddress %>
+                                        <br><%= addr.district %>/<%= addr.city %>
+                                        <% if (addr.zipCode) { %> - <%= addr.zipCode %><% } %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+
+                        <!-- Fatura Adresi Aynı mı -->
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="sameBillingAddress" checked
+                                   onchange="toggleBillingAddress()">
+                            <label class="form-check-label" for="sameBillingAddress">
+                                Fatura adresim teslimat adresimle aynı
+                            </label>
+                        </div>
+
+                        <!-- Farklı Fatura Adresi -->
+                        <div id="billingAddressSection" class="mt-3" style="display: none;">
+                            <h6 class="mb-3">Fatura Adresi</h6>
+                            <div class="row g-3">
+                                <% addresses.forEach(function(addr, index) { %>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="billingAddressId"
+                                               value="<%= addr.id %>" id="billing<%= addr.id %>"
+                                               <%= index === 0 ? 'checked' : '' %>>
+                                        <label class="form-check-label" for="billing<%= addr.id %>">
+                                            <%= addr.title %> - <%= addr.district %>/<%= addr.city %>
+                                        </label>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            </div>
+                        </div>
+
+                        <a href="/profile/addresses/new" class="btn btn-outline-primary btn-sm mt-3">
+                            <i class="bi bi-plus me-1"></i>Yeni Adres Ekle
+                        </a>
+                        <% } else { %>
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            Kayıtlı adresiniz bulunmamaktadır.
+                            <a href="/profile/addresses/new" class="alert-link">Yeni adres ekleyin</a>.
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Ödeme Yöntemi -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-credit-card me-2"></i>Ödeme Yöntemi</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="paymentMethod"
+                                   value="CreditCard" id="payCard" checked onchange="togglePaymentMethod()">
+                            <label class="form-check-label" for="payCard">
+                                <i class="bi bi-credit-card me-2"></i>Kredi Kartı / Banka Kartı
+                            </label>
+                        </div>
+
+                        <!-- Kart Bilgileri -->
+                        <div id="cardDetails" class="mt-4 p-3 bg-light rounded">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label">Kart Üzerindeki İsim *</label>
+                                    <input type="text" class="form-control" name="cardHolderName"
+                                           placeholder="AD SOYAD" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Kart Numarası *</label>
+                                    <input type="text" class="form-control" name="cardNumber"
+                                           placeholder="1234 5678 9012 3456" maxlength="19" required>
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label">Ay *</label>
+                                    <select class="form-select" name="expireMonth" required>
+                                        <% for(let i = 1; i <= 12; i++) { %>
+                                        <option value="<%= i.toString().padStart(2, '0') %>">
+                                            <%= i.toString().padStart(2, '0') %>
+                                        </option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label">Yıl *</label>
+                                    <select class="form-select" name="expireYear" required>
+                                        <% for(let i = 24; i <= 35; i++) { %>
+                                        <option value="<%= i %>"><%= 2000 + i %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label">CVV *</label>
+                                    <input type="text" class="form-control" name="cvv"
+                                           placeholder="123" maxlength="4" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-3">
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod"
+                                   value="Transfer" id="payTransfer" onchange="togglePaymentMethod()">
+                            <label class="form-check-label" for="payTransfer">
+                                <i class="bi bi-bank me-2"></i>Havale / EFT
+                            </label>
+                        </div>
+
+                        <div id="transferDetails" class="mt-3 p-3 bg-light rounded" style="display: none;">
+                            <p class="mb-2"><strong>Banka Bilgileri:</strong></p>
+                            <p class="mb-1">Banka: Garanti BBVA</p>
+                            <p class="mb-1">IBAN: TR00 0000 0000 0000 0000 0000 00</p>
+                            <p class="mb-0 text-muted small">Havale açıklamasına sipariş numaranızı yazmayı unutmayın.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ Kolon - Sipariş Özeti -->
+            <div class="col-lg-4">
+                <div class="cart-summary sticky-top" style="top: 100px;">
+                    <h5 class="mb-4"><i class="bi bi-receipt me-2"></i>Sipariş Özeti</h5>
+
+                    <!-- Ürün Listesi -->
+                    <div class="mb-3">
+                        <% if (cart.items) { %>
+                        <% cart.items.forEach(function(item) { %>
+                        <div class="d-flex justify-content-between mb-2 align-items-start">
+                            <div>
+                                <input type="hidden" name="selectedItems" value="<%= item.id %>">
+                                <span class="text-muted small">
+                                    <%= (item.productName || item.product?.name) %>
+                                </span>
+                                <br>
+                                <small class="text-muted">x<%= item.quantity %></small>
+                            </div>
+                            <span><%= ((item.unitPrice || item.price || item.product?.price) * item.quantity)?.toFixed(2) %> TL</span>
+                        </div>
+                        <% }); %>
+                        <% } %>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Ara Toplam:</span>
+                        <span><%= cart.totalPrice?.toFixed(2) || '0.00' %> TL</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Kargo:</span>
+                        <span class="text-success">Ücretsiz</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <strong>Toplam:</strong>
+                        <strong class="text-primary fs-5"><%= cart.totalPrice?.toFixed(2) || '0.00' %> TL</strong>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="terms" required>
+                        <label class="form-check-label small" for="terms">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">
+                                Satış sözleşmesini
+                            </a> okudum ve kabul ediyorum.
+                        </label>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg"
+                                <%= !addresses || addresses.length === 0 ? 'disabled' : '' %>>
+                            <i class="bi bi-check-circle me-2"></i>Siparişi Tamamla
+                        </button>
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <img src="https://www.mastercard.com.tr/content/dam/public/mastercardcom/eu/tr/images/mc-logo-52.svg"
+                             alt="Mastercard" height="25" class="me-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/100px-Visa_Inc._logo.svg.png"
+                             alt="Visa" height="18">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Satış Sözleşmesi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu sözleşme, alıcı ile satıcı arasındaki ticari ilişkiyi düzenler...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Anladım</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectAddress(card, addressId) {
+    document.querySelectorAll('.address-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    document.getElementById('addr' + addressId).checked = true;
+}
+
+function toggleBillingAddress() {
+    const checkbox = document.getElementById('sameBillingAddress');
+    const section = document.getElementById('billingAddressSection');
+    section.style.display = checkbox.checked ? 'none' : 'block';
+}
+
+function togglePaymentMethod() {
+    const isCreditCard = document.getElementById('payCard').checked;
+    const cardDetails = document.getElementById('cardDetails');
+    const transferDetails = document.getElementById('transferDetails');
+
+    if (isCreditCard) {
+        cardDetails.style.display = 'block';
+        transferDetails.style.display = 'none';
+        cardDetails.querySelectorAll('input, select').forEach(el => el.required = true);
+    } else {
+        cardDetails.style.display = 'none';
+        transferDetails.style.display = 'block';
+        cardDetails.querySelectorAll('input, select').forEach(el => el.required = false);
+    }
+}
+</script>
+
+<%- include('../../partials/footer') %>

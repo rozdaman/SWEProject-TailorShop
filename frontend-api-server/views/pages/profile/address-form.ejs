@@ -1,0 +1,83 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<main class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/profile">Profilim</a></li>
+            <li class="breadcrumb-item"><a href="/profile/addresses">Adreslerim</a></li>
+            <li class="breadcrumb-item active"><%= address ? 'Adres Düzenle' : 'Yeni Adres' %></li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="profile-content">
+                <h4 class="mb-4">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    <%= address ? 'Adres Düzenle' : 'Yeni Adres Ekle' %>
+                </h4>
+
+                <form action="/profile/addresses" method="POST">
+                    <% if (address) { %>
+                    <input type="hidden" name="id" value="<%= address.id %>">
+                    <% } %>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Adres Başlığı *</label>
+                            <input type="text" class="form-control" name="title"
+                                   value="<%= address?.title || '' %>" placeholder="Örn: Ev, İş" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">İl *</label>
+                            <input type="text" class="form-control" name="city"
+                                   value="<%= address?.city || '' %>" placeholder="İstanbul" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">İlçe *</label>
+                            <input type="text" class="form-control" name="district"
+                                   value="<%= address?.district || '' %>" placeholder="Kadıköy" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Posta Kodu</label>
+                            <input type="text" class="form-control" name="zipCode"
+                                   value="<%= address?.zipCode || '' %>" placeholder="34710">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" name="isDefault" id="isDefault"
+                                       <%= address?.isDefault ? 'checked' : '' %>>
+                                <label class="form-check-label" for="isDefault">
+                                    Varsayılan adres olarak ayarla
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Açık Adres *</label>
+                            <textarea class="form-control" name="fullAddress" rows="3"
+                                      placeholder="Mahalle, cadde/sokak, bina no, daire no gibi detaylı adres bilgisi..." required><%= address?.fullAddress || '' %></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>Kaydet
+                        </button>
+                        <a href="/profile/addresses" class="btn btn-outline-secondary">
+                            <i class="bi bi-x me-2"></i>İptal
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../../partials/footer') %>

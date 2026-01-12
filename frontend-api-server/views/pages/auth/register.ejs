@@ -1,0 +1,388 @@
+<%- include('../../partials/header') %> <%- include('../../partials/navbar') %>
+
+<!-- Kalın ve lüks tipografi için fontlar -->
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Montserrat:wght@700;800;900&display=swap"
+  rel="stylesheet"
+/>
+
+<style>
+  :root {
+    --sartoria-beige: #f2ede4;
+    --sartoria-dark: #1a1a1a;
+    --sartoria-grey: #333333;
+    --sartoria-accent: #8d775f;
+    --sartoria-white: #ffffff;
+  }
+
+  body {
+    background-color: var(--sartoria-beige);
+    font-family: "Montserrat", sans-serif;
+    color: var(--sartoria-dark);
+    font-weight: 700;
+  }
+
+  h1,
+  h2,
+  .brand-logo {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 700;
+  }
+
+  .register-wrapper {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    padding: 4rem 0;
+  }
+
+  .register-card {
+    background: var(--sartoria-white);
+    border-radius: 0;
+    overflow: hidden;
+    border: none;
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.12);
+  }
+
+  .form-container {
+    padding: 60px 70px;
+  }
+
+  .brand-logo {
+    color: var(--sartoria-dark);
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+    border-bottom: 3px solid var(--sartoria-accent);
+    line-height: 1;
+  }
+
+  .welcome-text {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -1px;
+  }
+
+  .form-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sartoria-dark);
+    font-weight: 900;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .input-group {
+    background-color: transparent;
+    border-bottom: 3px solid #1a1a1a;
+    margin-bottom: 2.2rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .input-group:focus-within {
+    border-color: var(--sartoria-accent);
+  }
+
+  .input-group-text {
+    background: transparent;
+    border: none;
+    padding-left: 0;
+    color: var(--sartoria-accent);
+    font-size: 1.1rem;
+  }
+
+  .form-control {
+    border: none;
+    border-radius: 0;
+    padding: 10px 5px;
+    font-size: 1.1rem;
+    color: var(--sartoria-dark);
+    background: transparent;
+    font-weight: 800;
+  }
+
+  .form-control:focus {
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .btn-sartoria {
+    background-color: var(--sartoria-dark);
+    color: var(--sartoria-white);
+    border-radius: 0;
+    padding: 22px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+    border: 3px solid var(--sartoria-dark);
+    margin-top: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .btn-sartoria:hover {
+    background-color: transparent;
+    color: var(--sartoria-dark);
+  }
+
+  .terms-text {
+    font-size: 0.85rem;
+    color: var(--sartoria-dark);
+    font-weight: 700;
+  }
+
+  .login-link {
+    color: var(--sartoria-dark);
+    text-decoration: none;
+    font-weight: 900;
+    border-bottom: 3px solid var(--sartoria-accent);
+    transition: 0.3s;
+    font-size: 1rem;
+  }
+
+  .info-side {
+    background-color: #faf9f6;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0;
+    border-left: 1px solid #f0efeb;
+    text-align: center;
+  }
+
+  .user-photo-display {
+    width: 100%;
+    height: 550px;
+    background-image: url("/images/register.jpeg");
+    background-size: cover;
+    background-position: center;
+    border-bottom: 3px solid var(--sartoria-accent);
+    margin-bottom: 40px;
+  }
+
+  .info-content-box {
+    padding: 0 40px 40px 40px;
+  }
+
+  /* YENİ BAŞLIK STİLİ */
+  .info-side h1 {
+    font-size: 2.2rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    font-weight: 900;
+    color: var(--sartoria-dark);
+    text-transform: uppercase;
+    letter-spacing: -1px;
+  }
+
+  .info-side h1 span {
+    display: block;
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--sartoria-accent);
+    font-weight: 700;
+    margin-top: 5px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .experience-tag {
+    font-size: 0.8rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--sartoria-dark);
+    font-weight: 900;
+    margin-top: auto;
+    padding-bottom: 30px;
+  }
+
+  @media (max-width: 991.98px) {
+    .info-side {
+      display: none;
+    }
+    .form-container {
+      padding: 50px 30px;
+    }
+  }
+</style>
+
+<main class="container register-wrapper">
+  <div class="register-card">
+    <div class="row g-0">
+      <!-- Sol Taraf: Kayıt Formu -->
+      <div class="col-lg-6">
+        <div class="form-container">
+          <div class="mb-5">
+            <div class="brand-logo mb-3">
+              <i class="bi bi-scissors"></i>
+            </div>
+            <h2 class="welcome-text">Hoş Geldiniz</h2>
+            <p
+              class="text-uppercase fw-bold"
+              style="
+                letter-spacing: 3px;
+                font-size: 0.7rem;
+                color: var(--sartoria-accent);
+              "
+            >
+              Atölye üyeliğinizi hemen başlatın.
+            </p>
+          </div>
+
+          <% if (error) { %>
+          <div
+            class="alert alert-dark border-0 border-start border-danger border-5 py-3 mb-4"
+          >
+            <span class="text-white small fw-bold"
+              ><i class="bi bi-exclamation-triangle-fill me-2"></i><%= error
+              %></span
+            >
+          </div>
+          <% } %>
+
+          <form action="/auth/register" method="POST">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Adınız</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-dot"></i
+                  ></span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="firstName"
+                    placeholder="Mehmet"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Soyadınız</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-dot"></i
+                  ></span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="lastName"
+                    placeholder="Yılmaz"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <label class="form-label">Kullanıcı Adı</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-at"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                name="userName"
+                placeholder="kullaniciadi"
+                required
+              />
+            </div>
+
+            <label class="form-label">E-posta</label>
+            <div class="input-group">
+              <span class="input-group-text"
+                ><i class="bi bi-envelope-fill"></i
+              ></span>
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                placeholder="ornek@mail.com"
+                required
+              />
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Şifre</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-lock-fill"></i
+                  ></span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Şifre Tekrar</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-shield-lock-fill"></i
+                  ></span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="confirmPassword"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-check mb-4 mt-2">
+              <input
+                type="checkbox"
+                class="form-check-input border-dark shadow-none"
+                id="terms"
+                required
+              />
+              <label class="form-check-label terms-text" for="terms">
+                Şartları ve gizlilik sözleşmesini kabul ediyorum.
+              </label>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-sartoria shadow">
+                Kaydı Tamamla
+              </button>
+            </div>
+          </form>
+
+          <p class="text-center mt-5 mb-0 small">
+            Zaten hesabınız var mı?
+            <a href="/auth/login" class="login-link">Giriş Yap</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Sağ Taraf: Yeni Slogan ve Görsel -->
+      <div class="col-lg-6 d-none d-lg-block">
+        <div class="info-side">
+          <div class="user-photo-display"></div>
+
+          <div class="info-content-box">
+            <h1>Atölyemizden <span>Dolabınıza</span></h1>
+            <p class="text-dark fw-bold small px-4">
+              Kusursuz Kesim & Saf El İşçiliği
+            </p>
+            <div class="experience-tag">1984'ten Günümüze</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('../../partials/footer') %>

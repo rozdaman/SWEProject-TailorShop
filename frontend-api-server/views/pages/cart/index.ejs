@@ -1,0 +1,118 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<main class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Ana Sayfa</a></li>
+            <li class="breadcrumb-item active">Sepetim</li>
+        </ol>
+    </nav>
+
+    <h2 class="mb-4"><i class="bi bi-cart3 me-2"></i>Sepetim</h2>
+
+    <% if (cart.items && cart.items.length > 0) { %>
+    <div class="row">
+        <!-- Sepet Ürünleri -->
+        <div class="col-lg-8">
+            <% cart.items.forEach(function(item) { %>
+            <div class="cart-item">
+                <div class="row align-items-center">
+                    <div class="col-3 col-md-2">
+                        <a href="/products/<%= item.productId %>">
+                            <img src="<%= item.productImage || 'https://via.placeholder.com/100x100?text=Ürün' %>"
+                                 alt="<%= item.productName %>" class="img-fluid rounded">
+                        </a>
+                    </div>
+                    <div class="col-9 col-md-4">
+                        <a href="/products/<%= item.productId %>" class="text-decoration-none text-dark">
+                            <h6 class="mb-1"><%= item.productName %></h6>
+                        </a>
+                        <% if (item.variantName) { %>
+                        <small class="text-muted d-block"><%= item.variantName %></small>
+                        <% } %>
+                        <small class="text-muted">Birim Fiyat: <%= item.unitPrice?.toFixed(2) %> TL</small>
+                    </div>
+                    <div class="col-6 col-md-3 mt-3 mt-md-0">
+                        <div class="d-flex align-items-center">
+                            <div class="quantity-selector">
+                                <button type="button" class="btn-qty btn-minus">-</button>
+                                <input type="number" name="newQuantity" class="cart-qty-input"
+                                       value="<%= item.quantity %>" min="1" 
+                                       data-cart-item-id="<%= item.shoppingCartItemId || item.id %>" readonly>
+                                <button type="button" class="btn-qty btn-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 col-md-2 mt-3 mt-md-0 text-end">
+                        <strong class="text-primary"><%= (item.unitPrice * item.quantity)?.toFixed(2) %> TL</strong>
+                    </div>
+                    <div class="col-2 col-md-1 mt-3 mt-md-0 text-end">
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-remove-from-cart" title="Kaldır" 
+                                data-cart-item-id="<%= item.shoppingCartItemId || item.id %>">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+
+            <!-- Sepet İşlemleri -->
+            <div class="d-flex justify-content-between mt-3">
+                <a href="/products" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left me-2"></i>Alışverişe Devam Et
+                </a>
+                <button type="button" class="btn btn-outline-danger btn-clear-cart">
+                    <i class="bi bi-trash me-2"></i>Sepeti Temizle
+                </button>
+            </div>
+        </div>
+
+        <!-- Sepet Özeti -->
+        <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="cart-summary">
+                <h5 class="mb-4"><i class="bi bi-receipt me-2"></i>Sipariş Özeti</h5>
+
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Ara Toplam:</span>
+                    <span><%= cart.totalPrice?.toFixed(2) || '0.00' %> TL</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Kargo:</span>
+                    <span class="text-success">Ücretsiz</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between mb-4">
+                    <strong>Toplam:</strong>
+                    <strong class="text-primary fs-5"><%= cart.totalPrice?.toFixed(2) || '0.00' %> TL</strong>
+                </div>
+
+                <div class="d-grid">
+                    <a href="/cart/checkout" class="btn btn-primary btn-lg">
+                        <i class="bi bi-credit-card me-2"></i>Ödemeye Geç
+                    </a>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <small class="text-muted">
+                        <i class="bi bi-shield-check me-1"></i>Güvenli ödeme
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% } else { %>
+    <!-- Boş Sepet -->
+    <div class="empty-state">
+        <i class="bi bi-cart-x"></i>
+        <h4>Sepetiniz Boş</h4>
+        <p class="text-muted">Henüz sepetinize ürün eklemediniz.</p>
+        <a href="/products" class="btn btn-primary">
+            <i class="bi bi-bag me-2"></i>Alışverişe Başla
+        </a>
+    </div>
+    <% } %>
+</main>
+
+<%- include('../../partials/footer') %>

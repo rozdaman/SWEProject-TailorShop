@@ -1,0 +1,535 @@
+/* ============================================================
+   SARTORIA MODERNA - Global Stil Dosyası
+   Yumuşak Vizon & Antik Kemik Tonları (Modern Minimal)
+============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Montserrat:wght@400;500;600;700;800&display=swap");
+
+:root {
+  /* Yumuşatılmış Renk Paleti */
+  --sartoria-bg: #f8f5f0;
+  /* Çok Açık Kemik / Fildişi */
+  --sartoria-dark: #3d3d3d;
+  /* Yumuşak Antrasit (Keskin Siyah Değil) */
+  --sartoria-accent: #a68b6d;
+  /* Hafifletilmiş Bronz/Keten Tonu */
+  --sartoria-white: #ffffff;
+  --sartoria-grey: #7a7a7a;
+  /* Orta Gri */
+  --sartoria-border: #e2ddd3;
+  /* Çok Hafif Çizgi Rengi */
+
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Montserrat", sans-serif;
+}
+
+/* --- Genel Ayarlar --- */
+body {
+  background-color: var(--sartoria-bg);
+  font-family: var(--font-sans);
+  color: var(--sartoria-dark);
+  font-weight: 500;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+/* Tüm linklerin varsayılan mavisini kaldırıyoruz */
+a {
+  color: var(--sartoria-dark);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: var(--sartoria-accent);
+}
+
+/* --- Navbar (Daha Hafif) --- */
+.navbar {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--sartoria-border);
+  padding: 1.5rem 0;
+}
+
+.navbar-brand {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--sartoria-dark) !important;
+}
+
+.nav-link {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  color: var(--sartoria-grey) !important;
+}
+
+.nav-link:hover {
+  color: var(--sartoria-accent) !important;
+}
+
+/* --- Hero Section (Koyu Siyah Yerine Sıcak Vizon) --- */
+.hero-section {
+  background-color: #ede8e0;
+  /* Yumuşak Bej Arka Plan */
+  color: var(--sartoria-dark);
+  padding: 100px 0;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--sartoria-border);
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+}
+
+/* --- Ürün Kartları (Daha Ferah) --- */
+.product-card {
+  background: var(--sartoria-white);
+  transition: all 0.3s ease;
+  border: 1px solid var(--sartoria-border);
+  border-radius: 0;
+  overflow: hidden;
+  height: 100%;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(166, 139, 109, 0.15);
+  /* Aksan renginde hafif gölge */
+  border-color: var(--sartoria-accent);
+}
+
+.product-card .card-img-top {
+  height: 280px;
+  object-fit: cover;
+}
+
+.product-card .card-body {
+  padding: 1.5rem;
+}
+
+.product-card .product-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.product-card .product-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--sartoria-accent);
+  /* Fiyatlarda aksan rengi */
+}
+
+/* --- Butonlar (Mavi İzlerini Tamamen Siliyoruz) --- */
+.btn-primary,
+.btn-sartoria,
+.btn-login {
+  background-color: var(--sartoria-dark) !important;
+  border: 1px solid var(--sartoria-dark) !important;
+  color: var(--sartoria-white) !important;
+  border-radius: 0 !important;
+  padding: 15px 30px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  transition: 0.3s;
+  box-shadow: none !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--sartoria-accent) !important;
+  border-color: var(--sartoria-accent) !important;
+  color: var(--sartoria-white) !important;
+}
+
+/* İkincil Buton */
+.btn-outline-primary,
+.btn-outline-sartoria {
+  border: 1px solid var(--sartoria-dark) !important;
+  color: var(--sartoria-dark) !important;
+  background: transparent;
+  border-radius: 0 !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  padding: 15px 30px;
+  transition: 0.3s;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-sartoria:hover {
+  background: var(--sartoria-dark) !important;
+  color: var(--sartoria-white) !important;
+}
+
+/* --- Form Elemanları & Mavi Focus Engelleme --- */
+.cart-item,
+.cart-summary,
+.profile-content,
+.auth-card {
+  background: var(--sartoria-white);
+  border-radius: 0;
+  border: 1px solid var(--sartoria-border);
+  padding: 30px;
+}
+
+.form-control {
+  border: none;
+  border-bottom: 1px solid var(--sartoria-border);
+  border-radius: 0;
+  padding: 10px 0;
+  font-weight: 600;
+  background-color: transparent !important;
+  color: var(--sartoria-dark);
+}
+
+.form-control:focus {
+  box-shadow: none !important;
+  border-color: var(--sartoria-accent) !important;
+  outline: none;
+}
+
+/* Checkbox (Onay Kutusu) Mavisini Kaldırma */
+.form-check-input:checked {
+  background-color: var(--sartoria-dark) !important;
+  border-color: var(--sartoria-dark) !important;
+}
+
+.form-check-input:focus {
+  box-shadow: none !important;
+  border-color: var(--sartoria-accent) !important;
+}
+
+/* --- Footer (Sartoria Premium) --- */
+.sartoria-footer {
+  background-color: #2b2b2b;
+  color: #a0a0a0;
+  padding: 80px 0 40px;
+  font-family: var(--font-sans);
+  border-top: 4px solid var(--sartoria-accent);
+}
+
+.footer-brand {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--sartoria-white);
+  letter-spacing: 1px;
+}
+
+.footer-brand:hover {
+  color: var(--sartoria-white);
+  opacity: 0.9;
+}
+
+.footer-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.footer-heading {
+  color: var(--sartoria-white);
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+}
+
+/* Footer Linkleri */
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-left: 0;
+}
+
+.footer-links a:hover {
+  color: var(--sartoria-accent);
+  padding-left: 10px;
+}
+
+.footer-links a::before {
+  content: "→";
+  /* Ok ikonu */
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  color: var(--sartoria-accent);
+  transition: all 0.3s ease;
+  font-family: serif;
+}
+
+.footer-links a:hover::before {
+  opacity: 1;
+  left: -15px;
+  /* Hoverda beliren ok */
+}
+
+/* Sosyal Medya Butonları */
+.social-links {
+  display: flex;
+  gap: 15px;
+}
+
+.social-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #4a4a4a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sartoria-white);
+  transition: 0.3s;
+  background: transparent;
+}
+
+.social-btn:hover {
+  background-color: var(--sartoria-accent);
+  border-color: var(--sartoria-accent);
+  transform: translateY(-3px);
+  color: white;
+}
+
+/* İletişim Listesi */
+.contact-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.contact-list i {
+  font-size: 1.1rem;
+  margin-top: -2px;
+}
+
+.contact-list a {
+  color: #a0a0a0;
+}
+
+.contact-list a:hover {
+  color: var(--sartoria-accent);
+}
+
+.footer-divider {
+  border-color: #4a4a4a;
+  opacity: 0.5;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.payment-methods {
+  opacity: 0.7;
+}
+
+/* --- Adet Seçici (Quantity Selector) --- */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--sartoria-border);
+  background: white;
+  width: fit-content;
+}
+
+.quantity-selector .btn-qty,
+.quantity-selector .btn-minus,
+.quantity-selector .btn-plus {
+  border: none;
+  background: transparent;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--sartoria-dark);
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.quantity-selector .btn-qty:hover {
+  background: var(--sartoria-bg);
+}
+
+.quantity-selector input[type="number"] {
+  width: 40px;
+  text-align: center;
+  border: none;
+  border-left: 1px solid var(--sartoria-border);
+  border-right: 1px solid var(--sartoria-border);
+  margin: 0;
+  padding: 5px 0;
+  font-weight: 700;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.quantity-selector input[type="number"]::-webkit-outer-spin-button,
+.quantity-selector input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* --- Mobil --- */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.2rem;
+  }
+}
+
+/* --- Checkout Progress Bar --- */
+.checkout-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  padding: 20px 0;
+}
+
+.checkout-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  width: 100px;
+}
+
+.checkout-step .step-number {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: var(--sartoria-white);
+  border: 2px solid var(--sartoria-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  color: var(--sartoria-grey);
+  margin-bottom: 10px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-size: 0.9rem;
+}
+
+.checkout-step span {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--sartoria-grey);
+  white-space: nowrap;
+}
+
+.step-connector {
+  flex: 1;
+  height: 2px;
+  background: var(--sartoria-border);
+  margin-top: -25px;
+  opacity: 0.6;
+}
+
+/* States */
+.checkout-step.active .step-number {
+  border-color: var(--sartoria-dark);
+  color: var(--sartoria-dark);
+  transform: scale(1.1);
+  box-shadow: 0 0 0 5px rgba(61, 61, 61, 0.05);
+}
+
+.checkout-step.active span {
+  color: var(--sartoria-dark);
+}
+
+.checkout-step.completed .step-number {
+  background: var(--sartoria-accent);
+  border-color: var(--sartoria-accent);
+  color: white;
+}
+
+.checkout-step.completed span {
+  color: var(--sartoria-accent);
+}
+
+/* --- Checkout Address Cards --- */
+.address-card {
+  border: 1px solid var(--sartoria-border);
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 100%;
+  background: var(--sartoria-white);
+  position: relative;
+}
+
+.address-card:hover {
+  border-color: var(--sartoria-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(166, 139, 109, 0.1);
+}
+
+.address-card.selected {
+  border-color: var(--sartoria-dark);
+  background: #fdfaf7;
+  border-width: 1.5px;
+}
+
+.address-card .form-check-input {
+  cursor: pointer;
+}
+
+/* --- Checkout Layout Tweaks --- */
+.cart-summary.sticky-top {
+  z-index: 10;
+}
+
+.card {
+  border-radius: 0;
+  border: 1px solid var(--sartoria-border);
+  box-shadow: none;
+}
+
+.card-header {
+  border-bottom: 1px solid var(--sartoria-border);
+  padding: 1.25rem 1.5rem;
+}
+
+.card-header h5 {
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}

@@ -1,0 +1,137 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<main class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/orders">Siparişlerim</a></li>
+            <li class="breadcrumb-item active">Sipariş #<%= order.id %></li>
+        </ol>
+    </nav>
+
+    <% if (showSuccess) { %>
+    <div class="alert alert-success mb-4">
+        <i class="bi bi-check-circle me-2"></i>
+        <strong>Siparişiniz başarıyla oluşturuldu!</strong> Sipariş numaranız: #<%= order.id %>
+    </div>
+    <% } %>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Sipariş Bilgileri -->
+            <div class="profile-content mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0">Sipariş #<%= order.id %></h4>
+                    <%
+                    let statusClass = 'pending';
+                    let statusText = 'Beklemede';
+                    if (order.status === 'Processing' || order.status === 1) { statusClass = 'processing'; statusText = 'İşleniyor'; }
+                    else if (order.status === 'Shipped' || order.status === 2) { statusClass = 'shipped'; statusText = 'Kargoda'; }
+                    else if (order.status === 'Delivered' || order.status === 3) { statusClass = 'delivered'; statusText = 'Teslim Edildi'; }
+                    else if (order.status === 'Cancelled' || order.status === 4) { statusClass = 'cancelled'; statusText = 'İptal'; }
+                    %>
+                    <span class="order-status <%= statusClass %>"><%= statusText %></span>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <small class="text-muted">Sipariş Tarihi</small>
+                        <p class="mb-0"><%= new Date(order.createdAt || order.orderDate).toLocaleDateString('tr-TR') %></p>
+                    </div>
+                    <div class="col-md-4">
+                        <small class="text-muted">Ödeme Yöntemi</small>
+                        <p class="mb-0"><%= order.paymentMethod === 'CreditCard' ? 'Kredi Kartı' : 'Kapıda Ödeme' %></p>
+                    </div>
+                    <div class="col-md-4">
+                        <small class="text-muted">Toplam Tutar</small>
+                        <p class="mb-0 text-primary fw-bold"><%= order.totalPrice?.toFixed(2) || order.totalAmount?.toFixed(2) %> TL</p>
+                    </div>
+                </div>
+
+                <!-- Ürünler -->
+                <h5 class="mb-3">Sipariş Ürünleri</h5>
+                <% if (order.items || order.orderItems) { %>
+                <% (order.items || order.orderItems).forEach(function(item) { %>
+                <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                    <img src="<%= item.imageUrl || item.product?.imageUrl || 'https://via.placeholder.com/60x60' %>"
+                         alt="" class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0"><%= item.productName || item.product?.name %></h6>
+                        <small class="text-muted">Adet: <%= item.quantity %></small>
+                    </div>
+                    <strong><%= ((item.unitPrice || item.price) * item.quantity)?.toFixed(2) %> TL</strong>
+                </div>
+                <% }); %>
+                <% } %>
+
+                <% if (order.notes) { %>
+                <div class="mt-4 p-3 bg-light rounded">
+                    <h6><i class="bi bi-chat-text me-2"></i>Sipariş Notu</h6>
+                    <p class="mb-0"><%= order.notes %></p>
+                </div>
+                <% } %>
+            </div>
+
+            <!-- Kargo Takip -->
+            <% if (tracking) { %>
+            <div class="profile-content">
+                <h5 class="mb-4"><i class="bi bi-truck me-2"></i>Kargo Bilgileri</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <small class="text-muted">Kargo Firması</small>
+                        <p class="mb-0"><%= tracking.carrierName %></p>
+                    </div>
+                    <div class="col-md-4">
+                        <small class="text-muted">Takip No</small>
+                        <p class="mb-0"><%= tracking.trackingNumber %></p>
+                    </div>
+                    <div class="col-md-4">
+                        <small class="text-muted">Durum</small>
+                        <p class="mb-0"><%= tracking.status %></p>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Teslimat Adresi -->
+        <div class="col-lg-4">
+            <div class="profile-content">
+                <h5 class="mb-3"><i class="bi bi-geo-alt me-2"></i>Teslimat Adresi</h5>
+                <% if (order.address) { %>
+                <p class="mb-1"><strong><%= order.address.title %></strong></p>
+                <p class="text-muted mb-0">
+                    <%= order.address.fullAddress || `${order.address.street} ${order.address.buildingNo}/${order.address.apartmentNo} ${order.address.neighborhood} ${order.address.district}/${order.address.city}` %>
+                </p>
+                <% } else { %>
+                <p class="text-muted">Adres bilgisi bulunamadı</p>
+                <% } %>
+            </div>
+
+            <div class="profile-content mt-3">
+                <h5 class="mb-3"><i class="bi bi-receipt me-2"></i>Sipariş Özeti</h5>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Ara Toplam:</span>
+                    <span><%= order.totalPrice?.toFixed(2) || order.totalAmount?.toFixed(2) %> TL</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Kargo:</span>
+                    <span class="text-success">Ücretsiz</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <strong>Toplam:</strong>
+                    <strong class="text-primary"><%= order.totalPrice?.toFixed(2) || order.totalAmount?.toFixed(2) %> TL</strong>
+                </div>
+            </div>
+
+            <div class="d-grid mt-3">
+                <a href="/orders" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left me-2"></i>Siparişlerime Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../../partials/footer') %>

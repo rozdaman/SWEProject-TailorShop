@@ -1,0 +1,134 @@
+<%- include('../../../partials/header') %>
+<%- include('../../../partials/navbar') %>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Admin Sidebar -->
+        <div class="col-lg-2 admin-sidebar d-none d-lg-block">
+            <h5 class="text-white px-3 mb-4">
+                <i class="bi bi-gear me-2"></i>Admin Panel
+            </h5>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="/admin">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="/admin/products">
+                    <i class="bi bi-box me-2"></i>Ürünler
+                </a>
+                <a class="nav-link" href="/admin/categories">
+                    <i class="bi bi-tags me-2"></i>Kategoriler
+                </a>
+                <a class="nav-link" href="/admin/stock">
+                    <i class="bi bi-boxes me-2"></i>Stok Yönetimi
+                </a>
+                <a class="nav-link" href="/admin/users">
+                    <i class="bi bi-people me-2"></i>Kullanıcılar
+                </a>
+                <a class="nav-link active" href="/admin/logistics">
+                    <i class="bi bi-truck me-2"></i>Lojistik
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-10 py-4">
+            <div class="container-fluid">
+                <h3 class="mb-4"><i class="bi bi-truck me-2"></i>Lojistik Yönetimi</h3>
+
+                <div class="row g-4">
+                    <!-- Kargo Oluştur -->
+                    <div class="col-md-6">
+                        <div class="admin-card">
+                            <h5 class="mb-4"><i class="bi bi-box-seam me-2"></i>Kargo Oluştur</h5>
+                            <form action="/admin/logistics/create-shipment" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label">Sipariş ID *</label>
+                                    <input type="number" class="form-control" name="orderId" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Kargo Firması *</label>
+                                    <select class="form-select" name="carrier" required>
+                                        <option value="">Seçin</option>
+                                        <option value="Yurtiçi Kargo">Yurtiçi Kargo</option>
+                                        <option value="Aras Kargo">Aras Kargo</option>
+                                        <option value="MNG Kargo">MNG Kargo</option>
+                                        <option value="PTT Kargo">PTT Kargo</option>
+                                        <option value="Sürat Kargo">Sürat Kargo</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Takip Numarası *</label>
+                                    <input type="text" class="form-control" name="trackingNumber" placeholder="YK123456789" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-check me-2"></i>Kargo Oluştur
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Kargo Takip -->
+                    <div class="col-md-6">
+                        <div class="admin-card">
+                            <h5 class="mb-4"><i class="bi bi-search me-2"></i>Kargo Takip</h5>
+                            <form id="trackForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Sipariş ID</label>
+                                    <input type="number" class="form-control" id="trackOrderId" required>
+                                </div>
+                                <button type="button" class="btn btn-info w-100" onclick="trackShipment()">
+                                    <i class="bi bi-search me-2"></i>Takip Et
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kargo Bilgisi -->
+                <div class="admin-card mt-4">
+                    <h5 class="mb-4"><i class="bi bi-info-circle me-2"></i>Kargo Firmaları</h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-truck fs-1 text-primary"></i>
+                                    <h6 class="mt-2">Yurtiçi Kargo</h6>
+                                    <small class="text-muted">1-3 iş günü</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-truck fs-1 text-success"></i>
+                                    <h6 class="mt-2">Aras Kargo</h6>
+                                    <small class="text-muted">1-3 iş günü</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-truck fs-1 text-warning"></i>
+                                    <h6 class="mt-2">MNG Kargo</h6>
+                                    <small class="text-muted">2-4 iş günü</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function trackShipment() {
+    const orderId = document.getElementById('trackOrderId').value;
+    if (orderId) {
+        window.open('/orders/' + orderId, '_blank');
+    }
+}
+</script>
+
+<%- include('../../../partials/footer') %>

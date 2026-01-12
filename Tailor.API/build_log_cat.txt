@@ -1,0 +1,9 @@
+  Geri yüklenecek projeler belirleniyor...
+  Geri yükleme için tüm projeler güncel.
+  Tailor.Entity -> C:\Users\AysenurSariot\SWETailorProject\Tailor.Entity\bin\Debug\net8.0\Tailor.Entity.dll
+  Tailor.DTO -> C:\Users\AysenurSariot\SWETailorProject\Tailor.DTO\bin\Debug\net8.0\Tailor.DTO.dll
+  Tailor.DataAccess -> C:\Users\AysenurSariot\SWETailorProject\Tailor.DataAccess\bin\Debug\net8.0\Tailor.DataAccess.dll
+C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\Mapping\MapProfile.cs(5,7): warning CS0105: 'Tailor.DTO.DTOs.BlogDtos' için using yönergesi bu ad alanında daha önce göründü [C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\Tailor.Business.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\Abstract\IGenericService.cs(24,74): warning CS8625: Null sabit değer, boş değer atanamayan başvuru türüne dönüştürülemiyor. [C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\Tailor.Business.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\Concrete\GenericManager.cs(57,81): warning CS8625: Null sabit değer, boş değer atanamayan başvuru türüne dönüştürülemiyor. [C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\Tailor.Business.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\Concrete\CategoryManager.cs(14,32): error CS0246: 'IRepository<>' türü veya ad alanı adı bulunamadı (bir using yönergeniz veya derleme başvurunuz mu eksik?) [C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\Tailor.Business.csproj]

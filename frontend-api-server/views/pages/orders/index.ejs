@@ -1,0 +1,64 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<main class="container py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <%- include('../../partials/profile-sidebar', { activePage: 'orders' }) %>
+        </div>
+
+        <!-- Content -->
+        <div class="col-lg-9">
+            <h4 class="mb-4"><i class="bi bi-bag me-2"></i>Siparişlerim</h4>
+
+            <% if (orders && orders.length > 0) { %>
+            <% orders.forEach(function(order) { %>
+            <div class="order-card">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <small class="text-muted">Sipariş No</small>
+                        <h6 class="mb-0">#<%= order.id %></h6>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Tarih</small>
+                        <h6 class="mb-0"><%= new Date(order.createdAt || order.orderDate).toLocaleDateString('tr-TR') %></h6>
+                    </div>
+                    <div class="col-md-2">
+                        <small class="text-muted">Tutar</small>
+                        <h6 class="mb-0 text-primary"><%= order.totalPrice?.toFixed(2) || order.totalAmount?.toFixed(2) %> TL</h6>
+                    </div>
+                    <div class="col-md-2">
+                        <%
+                        let statusClass = 'pending';
+                        let statusText = 'Beklemede';
+                        if (order.status === 'Processing' || order.status === 1) { statusClass = 'processing'; statusText = 'İşleniyor'; }
+                        else if (order.status === 'Shipped' || order.status === 2) { statusClass = 'shipped'; statusText = 'Kargoda'; }
+                        else if (order.status === 'Delivered' || order.status === 3) { statusClass = 'delivered'; statusText = 'Teslim Edildi'; }
+                        else if (order.status === 'Cancelled' || order.status === 4) { statusClass = 'cancelled'; statusText = 'İptal'; }
+                        %>
+                        <span class="order-status <%= statusClass %>"><%= statusText %></span>
+                    </div>
+                    <div class="col-md-2 text-end">
+                        <a href="/orders/<%= order.id %>" class="btn btn-outline-primary btn-sm">
+                            Detay <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+            <% } else { %>
+            <div class="empty-state">
+                <i class="bi bi-bag-x"></i>
+                <h4>Sipariş Bulunamadı</h4>
+                <p class="text-muted">Henüz sipariş vermediniz.</p>
+                <a href="/products" class="btn btn-primary">
+                    <i class="bi bi-bag me-2"></i>Alışverişe Başla
+                </a>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</main>
+
+<%- include('../../partials/footer') %>

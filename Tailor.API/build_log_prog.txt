@@ -1,0 +1,15 @@
+  Geri yüklenecek projeler belirleniyor...
+  Geri yükleme için tüm projeler güncel.
+  Tailor.Entity -> C:\Users\AysenurSariot\SWETailorProject\Tailor.Entity\bin\Debug\net8.0\Tailor.Entity.dll
+  Tailor.DTO -> C:\Users\AysenurSariot\SWETailorProject\Tailor.DTO\bin\Debug\net8.0\Tailor.DTO.dll
+  Tailor.DataAccess -> C:\Users\AysenurSariot\SWETailorProject\Tailor.DataAccess\bin\Debug\net8.0\Tailor.DataAccess.dll
+  Tailor.Business -> C:\Users\AysenurSariot\SWETailorProject\Tailor.Business\bin\Debug\net8.0\Tailor.Business.dll
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AuthController.cs(124,67): warning CS8604: 'LoginResponseDto JwtTokenGenerator.GenerateToken(string email, int userId, List<string> roles, IConfiguration configuration)' içindeki 'email' parametresi için olası null başvuru bağımsız değişkeni. [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AuthController.cs(153,32): warning CS8601: Olası null başvuru ataması. [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AuthController.cs(173,57): warning CS8604: 'Task<IdentityResult> UserManager<AppUser>.AddToRoleAsync(AppUser user, string role)' içindeki 'role' parametresi için olası null başvuru bağımsız değişkeni. [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Controllers\AuthController.cs(178,62): warning CS8604: 'Task<IdentityResult> UserManager<AppUser>.RemoveFromRoleAsync(AppUser user, string role)' içindeki 'role' parametresi için olası null başvuru bağımsız değişkeni. [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Program.cs(175,17): error CS0117: 'Product' bir 'ProductCode' tanımı içermiyor [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Program.cs(176,17): error CS0117: 'Product' bir 'Price' tanımı içermiyor [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Program.cs(177,17): error CS0117: 'Product' bir 'StockQuantity' tanımı içermiyor [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Program.cs(181,17): error CS0117: 'Product' bir 'CoverImg' tanımı içermiyor [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]
+C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Program.cs(51,76): warning CS8604: 'byte[] Encoding.GetBytes(string s)' içindeki 's' parametresi için olası null başvuru bağımsız değişkeni. [C:\Users\AysenurSariot\SWETailorProject\Tailor.API\Tailor.API.csproj]

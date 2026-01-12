@@ -1,0 +1,123 @@
+<%- include('../../../partials/header') %>
+<%- include('../../../partials/navbar') %>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Admin Sidebar -->
+        <div class="col-lg-2 admin-sidebar d-none d-lg-block">
+            <h5 class="text-white px-3 mb-4">
+                <i class="bi bi-gear me-2"></i>Admin Panel
+            </h5>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="/admin">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </a>
+                <a class="nav-link" href="/admin/products">
+                    <i class="bi bi-box me-2"></i>Ürünler
+                </a>
+                <a class="nav-link" href="/admin/categories">
+                    <i class="bi bi-tags me-2"></i>Kategoriler
+                </a>
+                <a class="nav-link" href="/admin/stock">
+                    <i class="bi bi-boxes me-2"></i>Stok Yönetimi
+                </a>
+                <a class="nav-link active" href="/admin/users">
+                    <i class="bi bi-people me-2"></i>Kullanıcılar
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-10 py-4">
+            <div class="container-fluid">
+                <h3 class="mb-4"><i class="bi bi-people me-2"></i>Kullanıcı Yönetimi</h3>
+
+                <div class="row g-4">
+                    <!-- Rol Oluştur -->
+                    <div class="col-md-4">
+                        <div class="admin-card">
+                            <h5 class="mb-4"><i class="bi bi-shield-plus me-2"></i>Yeni Rol Oluştur</h5>
+                            <form action="/admin/roles/create" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label">Rol Adı</label>
+                                    <input type="text" class="form-control" name="roleName" placeholder="Örn: Admin" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-plus me-2"></i>Rol Oluştur
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Rol Ata -->
+                    <div class="col-md-8">
+                        <div class="admin-card">
+                            <h5 class="mb-4"><i class="bi bi-person-badge me-2"></i>Rol Ata</h5>
+                            <form action="/admin/users/assign-role" method="POST">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Kullanıcı ID</label>
+                                        <input type="text" class="form-control" name="userId" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Rol ID</label>
+                                        <input type="text" class="form-control" name="roleId" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Rol Mevcut mu?</label>
+                                        <select class="form-select" name="roleExist">
+                                            <option value="true">Evet</option>
+                                            <option value="false">Hayır</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success mt-3">
+                                    <i class="bi bi-check me-2"></i>Rol Ata
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kullanıcı Listesi -->
+                <div class="admin-card mt-4">
+                    <h5 class="mb-4"><i class="bi bi-list me-2"></i>Kullanıcı Listesi</h5>
+                    <% if (users && users.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Kullanıcı Adı</th>
+                                    <th>E-posta</th>
+                                    <th>Rol</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(function(u) { %>
+                                <tr>
+                                    <td><%= u.id %></td>
+                                    <td><%= u.username || '-' %></td>
+                                    <td><%= u.email %></td>
+                                    <td>
+                                        <% if (u.role === 'Admin') { %>
+                                        <span class="badge bg-danger"><%= u.role %></span>
+                                        <% } else { %>
+                                        <span class="badge bg-secondary"><%= u.role || 'User' %></span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } else { %>
+                    <p class="text-muted">Kullanıcı bulunamadı.</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../../partials/footer') %>

@@ -1,0 +1,326 @@
+<%- include('../../partials/header') %>
+    <%- include('../../partials/navbar') %>
+
+        <% let totalStock=0; if (product.stock && product.stock.quantity) { totalStock=product.stock.quantity; } else if
+            (product.productVariants && product.productVariants.length> 0) {
+            totalStock = product.productVariants.reduce((sum, v) => sum + v.stockQuantity, 0);
+            } else if (product.variants && product.variants.length > 0) {
+            totalStock = product.variants.reduce((sum, v) => sum + v.stockQuantity, 0);
+            }
+            %>
+
+            <main class="container py-4">
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="/products">Ürünler</a></li>
+                        <li class="breadcrumb-item active">
+                            <%= product.name %>
+                        </li>
+                    </ol>
+                </nav>
+
+                <div class="row g-5">
+                    <div class="col-lg-6">
+                        <div class="product-gallery">
+                            <img src="<%= product.imageUrl || 'https://via.placeholder.com/600x500?text=Ürün' %>"
+                                class="img-fluid w-100 rounded shadow" alt="<%= product.name %>">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="product-info">
+
+                            <script>
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const errorMsg = urlParams.get('error');
+                                if (errorMsg) {
+                                    document.write(`
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                ${errorMsg}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        `);
+                                }
+                            </script>
+
+
+
+                                        <h1 class="mb-3">
+                                            <%= product.name %>
+                                        </h1>
+
+                                        <% if (totalStock> 10) { %>
+                                            <span class="stock-status in-stock mb-3">
+                                                <i class="bi bi-check-circle me-1"></i> Stokta (<%= totalStock %>)
+                                            </span>
+                                            <% } else if (totalStock> 0) { %>
+                                                <span class="stock-status low-stock mb-3">
+                                                    <i class="bi bi-exclamation-circle me-1"></i> Son <%= totalStock %>
+                                                        ürün
+                                                </span>
+                                                <% } else { %>
+                                                    <span class="stock-status out-of-stock mb-3">
+                                                        <i class="bi bi-x-circle me-1"></i> Stokta Yok
+                                                    </span>
+                                                    <% } %>
+
+                                                        <p class="price mb-4">
+                                                            <%= product.price ? product.price.toFixed(2) : '0.00' %> TL
+                                                        </p>
+
+                                                        <p class="text-muted mb-4">
+                                                            <%= product.description %>
+                                                        </p>
+
+                                                        <form action="/cart/add" method="POST" class="mb-4">
+                                                            <input type="hidden" name="productId"
+                                                                value="<%= product.id %>">
+
+                                                                <div class="row g-3 align-items-center mb-4">
+                                                                    <% if (product.productType !==0) { %>
+                                                                        <% if (product.variants &&
+                                                                            product.variants.length> 0) { %>
+                                                                            <div class="col-12 mb-3">
+                                                                                <label
+                                                                                    class="form-label fw-bold">Seçenekler:</label>
+                                                                                <select name="variantId"
+                                                                                    class="form-select" required>
+                                                                                    <option value="">Seçiniz...</option>
+                                                                                    <% product.variants.forEach(function(variant)
+                                                                                        { %>
+                                                                                        <option
+                                                                                            value="<%= variant.id %>"
+                                                                                            <%=variant.stockQuantity <=0
+                                                                                            ? 'disabled' : '' %>>
+                                                                                            <%= variant.name %>
+                                                                                                <% if
+                                                                                                    (variant.priceAdjustment>
+                                                                                                    0) { %>
+                                                                                                    (+<%=
+                                                                                                        variant.priceAdjustment
+                                                                                                        %> TL)
+                                                                                                        <% } %>
+                                                                                                            <%= variant.stockQuantity
+                                                                                                                <=0
+                                                                                                                ? '(Stokta Yok)'
+                                                                                                                : '' %>
+                                                                                        </option>
+                                                                                        <% }); %>
+                                                                                </select>
+                                                                            </div>
+                                                                            <% } else if (product.productVariants &&
+                                                                                product.productVariants.length> 0) { %>
+                                                                                <div class="col-12 mb-3">
+                                                                                    <label
+                                                                                        class="form-label fw-bold">Beden/Varyant:</label>
+                                                                                    <select name="variantId"
+                                                                                        class="form-select" required>
+                                                                                        <option value="">Seçiniz...
+                                                                                        </option>
+                                                                                        <% product.productVariants.forEach(function(variant)
+                                                                                            { %>
+                                                                                            <option
+                                                                                                value="<%= variant.id %>">
+                                                                                                <%= variant.size %> /
+                                                                                                    <%= variant.color %>
+                                                                                                        (Stok: <%=
+                                                                                                            variant.stockQuantity
+                                                                                                            %>)
+                                                                                            </option>
+                                                                                            <% }); %>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <% } %>
+                                                                                    <% } %>
+                                                                </div>
+
+                                                                <div class="row g-3 align-items-center mb-4">
+                                                                    <div class="col-auto">
+                                                                        <label
+                                                                            class="col-form-label fw-bold">Adet:</label>
+                                                                    </div>
+                                                                    <div class="col-auto">
+                                                                        <div class="quantity-selector">
+                                                                            <button type="button" class="btn-qty btn-minus">-</button>
+                                                                            <input type="number" name="quantity" value="1"
+                                                                                min="1" max="<%= totalStock || 99 %>" readonly>
+                                                                            <button type="button" class="btn-qty btn-plus">+</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="d-grid gap-2">
+                                                                    <% if (totalStock <= 0) { %>
+                                                                    <button type="button" class="btn btn-secondary btn-lg" disabled>
+                                                                        <i class="bi bi-x-circle me-2"></i>Stok Bulunmamaktadır
+                                                                    </button>
+                                                                    <% } else { %>
+                                                                    <button type="submit" class="btn btn-sartoria btn-lg btn-add-to-cart">
+                                                                        <i class="bi bi-cart-plus me-2"></i>Sepete Ekle
+                                                                    </button>
+                                                                    <% } %>
+                                                                    <% 
+                                                                        let favBtnClass = locals.isFavorite ? 'btn-danger' : 'btn-outline-secondary';
+                                                                        let favText = locals.isFavorite ? 'Favorilerden Çıkar' : 'Favorilere Ekle';
+                                                                        let favIcon = locals.isFavorite ? 'bi-heart-fill' : 'bi-heart';
+                                                                    %>
+                                                                    <button type="button" id="toggle-favorite" data-product-id="<%= product.id %>" class="btn <%= favBtnClass %> btn-lg">
+                                                                        <i class="bi <%= favIcon %> me-2"></i><span id="fav-text"><%= favText %></span>
+                                                                    </button>
+                                                                </div>
+                                                        </form>
+
+                                                        <div class="card mb-4">
+                                                            <div class="card-body">
+                                                                <h6 class="fw-bold mb-3">Ürün Detayları</h6>
+                                                                <table class="table table-sm table-borderless mb-0">
+                                                                    <tr>
+                                                                        <td class="text-muted">Ürün Kodu:</td>
+                                                                        <td>#<%= product.id %>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="text-muted">Kategori:</td>
+                                                                        <td>
+                                                                            <%= product.categoryName || 'Genel' %>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="text-muted">Tip:</td>
+                                                                        <td>
+                                                                            <%= product.productType===0 ? 'Kumaş'
+                                                                                : 'Hazır Giyim' %>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% if (typeof totalStock !=='undefined' ) { %>
+                                                                        <tr>
+                                                                            <td class="text-muted">Stok:</td>
+                                                                            <td>
+                                                                                <%= totalStock %> adet
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% } %>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row g-3">
+                                                            <div class="col-4 text-center">
+                                                                <i class="bi bi-truck text-primary fs-4"></i>
+                                                                <small class="d-block text-muted">Hızlı Kargo</small>
+                                                            </div>
+                                                            <div class="col-4 text-center">
+                                                                <i class="bi bi-shield-check text-primary fs-4"></i>
+                                                                <small class="d-block text-muted">Güvenli
+                                                                    Alışveriş</small>
+                                                            </div>
+                                                            <div class="col-4 text-center">
+                                                                <i
+                                                                    class="bi bi-arrow-counterclockwise text-primary fs-4"></i>
+                                                                <small class="d-block text-muted">Kolay İade</small>
+                                                            </div>
+                                                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <% if (typeof relatedProducts !=='undefined' && relatedProducts && relatedProducts.length> 0) { %>
+                    <section class="mt-5 pt-5 border-top">
+                        <h3 class="mb-4"><i class="bi bi-grid me-2"></i>Benzer Ürünler</h3>
+                        <div class="row g-4">
+                            <% relatedProducts.forEach(function(related) { %>
+                                <div class="col-6 col-md-3">
+                                    <div class="card product-card h-100">
+                                        <a href="/products/<%= related.id %>">
+                                            <img src="<%= related.imageUrl || 'https://via.placeholder.com/300x220?text=Ürün' %>"
+                                                class="card-img-top" alt="<%= related.name %>">
+                                        </a>
+                                        <div class="card-body">
+                                            <a href="/products/<%= related.id %>" class="text-decoration-none">
+                                                <h6 class="product-title">
+                                                    <%= related.name %>
+                                                </h6>
+                                            </a>
+                                            <p class="product-price mb-0">
+                                                <%= related.price ? related.price.toFixed(2) : '0.00' %> TL
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </section>
+                    <% } %>
+            </main>
+
+            <script>
+                // Favorite Toggle
+                const favBtn = document.getElementById('toggle-favorite');
+                if (favBtn) {
+                    favBtn.addEventListener('click', async function() {
+                        const productId = this.dataset.productId;
+                        try {
+                            const response = await fetch(`/profile/favorites/toggle/${productId}`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' }
+                            });
+                            
+                            if (response.status === 401 || response.status === 302 || response.redirected) {
+                                window.location.href = '/auth/login?redirect=' + window.location.pathname;
+                                return;
+                            }
+                            
+                            const result = await response.json();
+                            if (response.ok) {
+                                const icon = this.querySelector('i');
+                                const textSpan = document.getElementById('fav-text');
+                                
+                                if (result.isFavorite) {
+                                    this.classList.replace('btn-outline-secondary', 'btn-danger');
+                                    icon.classList.replace('bi-heart', 'bi-heart-fill');
+                                    textSpan.textContent = 'Favorilerden Çıkar';
+                                    showToast('Favorilere eklendi', 'success');
+                                } else {
+                                    this.classList.replace('btn-danger', 'btn-outline-secondary');
+                                    icon.classList.replace('bi-heart-fill', 'bi-heart');
+                                    textSpan.textContent = 'Favorilere Ekle';
+                                    showToast('Favorilerden çıkarıldı', 'info');
+                                }
+                            } else if (result.error) {
+                                showToast(result.error, 'error');
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            window.location.href = '/auth/login?redirect=' + window.location.pathname;
+                        }
+                    });
+                }
+
+                // Variant Image Switching
+                <% if (product.productVariants && product.productVariants.length > 0) { %>
+                const variantData = <%- JSON.stringify(product.productVariants) %>;
+                const variantSelect = document.querySelector('select[name="variantId"]');
+                const productImage = document.querySelector('.product-gallery img');
+                
+                if (variantSelect && productImage) {
+                    variantSelect.addEventListener('change', function(e) {
+                        const selectedVariantId = parseInt(e.target.value);
+                        const selectedVariant = variantData.find(v => v.id === selectedVariantId);
+                        
+                        if (selectedVariant && selectedVariant.imageUrl) {
+                            // Add fade effect
+                            productImage.style.opacity = '0.5';
+                            
+                            setTimeout(() => {
+                                productImage.src = selectedVariant.imageUrl;
+                                productImage.style.opacity = '1';
+                            }, 200);
+                        }
+                    });
+                }
+                <% } %>
+            </script>
+
+            <%- include('../../partials/footer') %>
