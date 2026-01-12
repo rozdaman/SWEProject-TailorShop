@@ -16,7 +16,9 @@ DataAccess: Database operations using Repository Pattern.
 
 Entity: Database models and DTOs.
 
-<img width="244" height="136" alt="image" src="https://github.com/user-attachments/assets/f78468c5-fff2-4e3d-862b-cf1a631d3821" />
-<img width="244" height="135" alt="image" src="https://github.com/user-attachments/assets/7f712cd7-f8e2-4489-b8dc-2687432be56f" />
-<img width="606" height="304" alt="admin 1" src="https://github.com/user-attachments/assets/2a697a0c-c177-4a4b-8c0f-7f4ffdca5976" />
-<img width="606" height="290" alt="admin 2" src="https://github.com/user-attachments/assets/e8d9484a-aafe-45cb-883c-8b26004b5283" />
+<img width="1464" height="802" alt="Ekran Resmi 2026-01-09 16 01 15" src="https://github.com/user-attachments/assets/29003249-71ba-4a7d-8450-f3aad673ff9e" />
+<img width="1464" height="802" alt="Ekran Resmi 2026-01-09 16 02 37" src="https://github.com/user-attachments/assets/bb5f1ca0-2f73-431d-97ae-78fb3e7bcaa1" />
+<img width="1464" height="802" alt="Ekran Resmi 2026-01-12 14 00 50" src="https://github.com/user-attachments/assets/dd8794c5-0876-42ea-95fe-42e73a04e23e" />
+<img width="1464" height="802" alt="Ekran Resmi 2026-01-12 14 01 10" src="https://github.com/user-attachments/assets/ad5881d9-dab4-40ff-85b8-3a24eb98bd66" />
+
+
